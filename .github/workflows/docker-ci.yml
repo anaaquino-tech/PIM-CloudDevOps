@@ -1,0 +1,30 @@
+
+name: CI - Alunos Tech
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Construir e validar imagem Docker
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar código do repositório
+        uses: actions/checkout@v4
+
+      - name: Construir imagem Docker
+        run: docker build -t alunos-tech-pim .
+
+      - name: Verificar imagem criada
+        run: docker image inspect alunos-tech-pim
+
+      - name: Validar arquivo Kubernetes
+        run: |
+          test -f kubernetes.yaml
+          echo "Arquivo Kubernetes encontrado com sucesso."
